@@ -1,0 +1,21 @@
+{
+  "username": "test",
+  "password": "test",
+  "serverlist": [
+    {
+      "alias": "alias",
+      "username": "usernameAlias",
+      "password": "passwordAlias"
+    },
+    {
+      "alias": "univ",
+      "username": "pochet",
+      "password": "antoine62580"
+    },
+    {
+      "alias": "test",
+      "username": "usernameTest",
+      "password": "passwordTest"
+    }
+  ]
+}

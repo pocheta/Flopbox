@@ -1,0 +1,3 @@
+[submodule "flopbox-pochet"]
+	path = flopbox-pochet
+	url = https://gitlab-etu.fil.univ-lille1.fr/pochet/flopbox-pochet

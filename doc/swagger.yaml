@@ -1,0 +1,503 @@
+swagger: "2.0"
+info:
+  description: "This is the FlopBox swagger."
+  version: "1.0.0"
+  title: "Swagger FlopBox"
+host: "localhost:8080"
+basePath: "/flopbox"
+tags:
+- name: "account"
+  description: "REST HTTP requests about FlopBox accounts"
+- name: "server"
+  description: "REST HTTP requests about FTP servers"
+- name: "client"
+  description: "REST HTTP requests about FlopBox client"
+schemes:
+- "http"
+paths:
+  /account:
+    post:
+      tags:
+      - "account"
+      summary: "Creates new account"
+      operationId: "createAccount"
+      parameters:
+      - in: "header"
+        name: "username"
+        description: "FlopBox login username"
+        required: true
+        type: "string"
+      - in: "header"
+        name: "password"
+        description: "FlopBox login password"
+        required: true
+        type: "string"
+      produces:
+      - 'text/plain'
+      responses:
+        "200":
+          description: "Account created successfuly"
+        "409":
+          description: "Account already exists"
+    get:
+      tags:
+      - "account"
+      summary: "Retrieves all accounts"
+      operationId: "getAccounts"
+      produces:
+      - "text/plain"
+      responses:
+        "200":
+          description: "Accounts retrieved successfuly"
+        "409":
+          description: "No account found"
+    put:
+      tags:
+      - "account"
+      summary: "Modifies password"
+      operationId: "updatePasswordAccount"
+      parameters:
+      - in: "header"
+        name: "username"
+        description: "FlopBox login username"
+        required: true
+        type: "string"
+      - in: "header"
+        name: "password"
+        description: "FlopBox login password"
+        required: true
+        type: "string"
+      - in: "header"
+        name: "newpassword"
+        description: "New FlopBox login password"
+        required: true
+        type: "string"
+      produces:
+      - 'text/plain'
+      responses:
+        "200":
+          description: "Account's password updated successfuly"
+        "409":
+          description: "Account doesn't exists or bad current password"
+    delete:
+      tags:
+      - "account"
+      summary: "Deletes account"
+      operationId: "deleteAccount"
+      parameters:
+      - in: "header"
+        name: "username"
+        description: "FlopBox login username"
+        required: true
+        type: "string"
+      - in: "header"
+        name: "password"
+        description: "FlopBox login password"
+        required: true
+        type: "string"
+      produces:
+      - 'text/plain'
+      responses:
+        "200":
+          description: "Account deleted successfuly"
+        "409":
+          description: "Account doesn't exists or bad current password"
+  
+  /server/{username}:
+    post:
+      tags:
+      - "server"
+      summary: "Creates new FTP server"
+      operationId: "createFTPServer"
+      parameters:
+      - in: "header"
+        name: "password"
+        description: "FlopBox login password"
+        required: true
+        type: "string"
+      - in: "header"
+        name: "address"
+        description: "FTP server address"
+        required: true
+        type: "string"
+      - in: "header"
+        name: "port"
+        description: "FTP server port"
+        required: true
+        type: "integer"
+      - in: "path"
+        name: "username"
+        description: "FlopBox login username"
+        required: true
+        type: string
+      - in: "query"
+        name: "aliasName"
+        description: "FTP alias"
+        required: true
+        type: "string"
+      produces:
+      - 'text/plain'
+      responses:
+        "200":
+          description: "FTP server created successfuly"
+        "401":
+          description: "FlopBox bad authentication"
+        "409":
+          description: "FTP server already exists"
+    get:
+      tags:
+      - "server"
+      summary: "Retrieves all FTP server"
+      operationId: "getFTPServers"
+      parameters:
+      - in: "header"
+        name: "password"
+        description: "FlopBox login password"
+        required: true
+        type: "string"
+      - in: "path"
+        name: "username"
+        description: "FlopBox login username"
+        required: true
+        type: string
+      produces:
+      - 'text/plain'
+      responses:
+        "200":
+          description: "FTP servers retrieved successfuly"
+        "401":
+          description: "FlopBox bad authentication"
+        "409":
+          description: "No FTP server found"
+    put:
+      tags:
+      - "server"
+      summary: "Updates FTP server"
+      operationId: "updateFTPServer"
+      parameters:
+      - in: "header"
+        name: "password"
+        description: "FlopBox login password"
+        required: true
+        type: "string"
+      - in: "path"
+        name: "username"
+        description: "FlopBox login username"
+        required: true
+        type: string
+      - in: "query"
+        name: "alias"
+        description: "FTP alias"
+        required: true
+        type: "string"
+      - in: "query"
+        name: "newAlias"
+        description: "New FTP alias"
+        required: false
+        type: "string"
+      - in: "query"
+        name: "newUri"
+        description: "New FTP URI"
+        required: false
+        type: "string"
+      produces:
+      - 'text/plain'
+      responses:
+        "200":
+          description: "FTP server updated successfuly"
+        "401":
+          description: "FlopBox bad authentication"
+        "409":
+          description: "Param error | Alias doesn't exists"
+    delete:
+      tags:
+      - "server"
+      summary: "Deletes FTP server"
+      operationId: "deleteFTPServer"
+      parameters:
+      - in: "header"
+        name: "password"
+        description: "FlopBox login password"
+        required: true
+        type: "string"
+      - in: "path"
+        name: "username"
+        description: "FlopBox login username"
+        required: true
+        type: string
+      - in: "query"
+        name: "alias"
+        description: "FTP alias"
+        required: true
+        type: "string"
+      produces:
+      - 'text/plain'
+      responses:
+        "200":
+          description: "FTP server updated successfuly"
+        "401":
+          description: "FlopBox bad authentication"
+        "409":
+          description: "Param error | Alias doesn't exists"
+          
+  /client/{flopBoxUsername}:
+    post:
+      tags:
+        - "client"
+      summary: "Creates a folder or upload a file/folder to a FTP server"
+      operationId: "addToFTPServer"
+      parameters:
+      - in: "header"
+        name: "username"
+        description: "FTP username"
+        required: true
+        type: string
+      - in: "header"
+        name: "password"
+        description: "FTP password"
+        required: true
+        type: string
+      - in: "header"
+        name: "flopBoxPassword"
+        description: "FlopBox login password"
+        required: true
+        type: string
+      - in: "path"
+        name: "flopBoxUsername"
+        description: "FlopBox login username"
+        required: true
+        type: string
+      - in: "query"
+        name: "alias"
+        description: "FTP alias"
+        required: true
+        type: "string"
+      - in: "query"
+        name: "path"
+        description: "Final location where the file or folder will be"
+        required: true
+        type: string
+      - in: "query"
+        name: "directoryName"
+        description: "Name of the directory to create"
+        required: false
+        type: string
+      - in: "formData"
+        name: "file"
+        description: "File to upload"
+        required: false
+        type: file
+      consumes: 
+      - 'multipart/form-data'
+      produces:
+      - 'text/plain'
+      responses:
+        "200":
+          description: "Folder created | file/folder uploaded successfuly"
+        "400":
+          description: "Unable to create folder | Unable to send file/folder"
+        "401":
+          description: "FlopBox bad authentication"
+        "409":
+          description: "Param error | Alias doesn't exists"
+    get:
+      tags:
+        - "client"
+      summary: "Lists files of a FTP server"
+      operationId: "listFTPServer"
+      parameters:
+      - in: "header"
+        name: "username"
+        description: "FTP username"
+        required: true
+        type: string
+      - in: "header"
+        name: "password"
+        description: "FTP password"
+        required: true
+        type: string
+      - in: "header"
+        name: "flopBoxPassword"
+        description: "FlopBox login password"
+        required: true
+        type: string
+      - in: "path"
+        name: "flopBoxUsername"
+        description: "FlopBox login username"
+        required: true
+        type: string
+      - in: "query"
+        name: "alias"
+        description: "FTP alias"
+        required: true
+        type: "string"
+      - in: "query"
+        name: "path"
+        description: "Final location where the file or folder will be"
+        required: true
+        type: string
+      produces:
+      - 'application/json'
+      responses:
+        "200":
+          description: "Listed successfuly"
+        "401":
+          description: "FlopBox bad authentication"
+        "409":
+          description: "Param error | Alias doesn't exists"
+    put:
+      tags:
+        - "client"
+      summary: "Renames file/folder of a FTP server"
+      operationId: "renameFTPServer"
+      parameters:
+      - in: "header"
+        name: "username"
+        description: "FTP username"
+        required: true
+        type: string
+      - in: "header"
+        name: "password"
+        description: "FTP password"
+        required: true
+        type: string
+      - in: "header"
+        name: "flopBoxPassword"
+        description: "FlopBox login password"
+        required: true
+        type: string
+      - in: "path"
+        name: "flopBoxUsername"
+        description: "FlopBox login username"
+        required: true
+        type: string
+      - in: "query"
+        name: "alias"
+        description: "FTP alias"
+        required: false
+        type: "string"
+      - in: "query"
+        name: "path"
+        description: "File/folder location"
+        required: false
+        type: string
+      - in: "query"
+        name: "newName"
+        description: "New name for the file/folder"
+        required: false
+        type: string
+      - in: "query"
+        name: "mode"
+        description: "Mode selected (passive or active)"
+        required: false
+        type: string
+      produces:
+      - 'text/plain'
+      responses:
+        "200":
+          description: "Renamed | mode changed successfuly"
+        "400":
+          description: "Unable to rename file/folder | incorrect param"
+        "401":
+          description: "FlopBox bad authentication"
+        "409":
+          description: "Param error | Alias doesn't exists"
+        "500":
+          description: "File/folder doesn't exists"
+    delete:
+      tags:
+        - "client"
+      summary: "Removes file/folder of a FTP server"
+      operationId: "removeFTPServer"
+      parameters:
+      - in: "header"
+        name: "username"
+        description: "FTP username"
+        required: true
+        type: string
+      - in: "header"
+        name: "password"
+        description: "FTP password"
+        required: true
+        type: string
+      - in: "header"
+        name: "flopBoxPassword"
+        description: "FlopBox login password"
+        required: true
+        type: string
+      - in: "path"
+        name: "flopBoxUsername"
+        description: "FlopBox login username"
+        required: true
+        type: string
+      - in: "query"
+        name: "alias"
+        description: "FTP alias"
+        required: true
+        type: "string"
+      - in: "query"
+        name: "path"
+        description: "File/folder location"
+        required: true
+        type: string
+      produces:
+      - 'text/plain'
+      responses:
+        "200":
+          description: "Removed successfuly"
+        "400":
+          description: "Unable to remove file/folder"
+        "401":
+          description: "FlopBox bad authentication"
+        "409":
+          description: "Param error | Alias doesn't exists"
+          
+  /client/{flopBoxUsername}/download:
+    get:
+      tags:
+        - "client"
+      summary: "Retrieves file/folder of a FTP server"
+      operationId: "retrieveFTPServer"
+      parameters:
+      - in: "header"
+        name: "username"
+        description: "FTP username"
+        required: true
+        type: string
+      - in: "header"
+        name: "password"
+        description: "FTP password"
+        required: true
+        type: string
+      - in: "header"
+        name: "flopBoxPassword"
+        description: "FlopBox login password"
+        required: true
+        type: string
+      - in: "path"
+        name: "flopBoxUsername"
+        description: "FlopBox login username"
+        required: true
+        type: string
+      - in: "query"
+        name: "alias"
+        description: "FTP alias"
+        required: true
+        type: "string"
+      - in: "query"
+        name: "filePath"
+        description: "File/folder location"
+        required: true
+        type: string
+      produces:
+      - 'application/json'
+      - 'application/octet-stream'
+      responses:
+        "200":
+          description: "File/folder retrieved successfuly"
+        "400":
+          description: "File doesn't exists"
+        "401":
+          description: "FlopBox bad authentication"
+        "409":
+          description: "Param error | Alias doesn't exists"
